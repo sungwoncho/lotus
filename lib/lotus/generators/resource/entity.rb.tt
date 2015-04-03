@@ -1,0 +1,5 @@
+require "lotus/entity"
+
+class <%= config[:resource_class] %>
+  include Lotus::Entity
+end

@@ -158,4 +158,36 @@ describe Lotus::Commands::Generate do
       end
     end
   end
+
+  describe 'resource' do
+    let(:target)      { :resource }
+    let(:target_name) { 'user' }
+
+    before do
+      capture_io { command.start }
+    end
+
+    describe 'lib/web/entities/user.rb' do
+      it 'generates it' do
+        content = @root.join('lib/web/entities/user.rb').read
+        content.must_match %(require "lotus/entity")
+        content.must_match %(class User)
+        content.must_match %(  include Lotus::Entity)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/config/routes.rb' do
+      it 'inserts route rules in it' do
+        content = @root.join('apps/web/config/routes.rb').read
+        content.must_match %(get '/user', to: 'user#index')
+        content.must_match %(get '/user/:id', to: 'user#show')
+        content.must_match %(get '/user/new', to: 'user#new')
+        content.must_match %(post '/user', to: 'user#create')
+        content.must_match %(get '/user/:id/edit', to: 'user#edit')
+        content.must_match %(patch '/user/:id', to: 'user#update')
+        content.must_match %(delete '/user/:id', to: 'user#destroy')
+      end
+    end
+  end
 end
