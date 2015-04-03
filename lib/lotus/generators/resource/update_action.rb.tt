@@ -1,0 +1,18 @@
+module <%= config[:app] %>::Controllers::<%= config[:resource_class] %>
+  class Update
+    include <%= config[:app] %>::Action
+
+    def call(params)
+      @<%= config[:name] %> = <%= config[:resource_class] %>Repository.find(params[:id])
+      @<%= config[:name] %>.update(<%= config[:name] %>_params)
+      <%= config[:resource_class] %>Repository.update(@<%= config[:name] %>)
+      redirect_to '/<%= config[:name] %>'
+    end
+
+    private
+
+    def <%= config[:name] %>_params
+      params[:<%= config[:name] %>]
+    end
+  end
+end

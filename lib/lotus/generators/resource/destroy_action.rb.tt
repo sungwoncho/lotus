@@ -1,0 +1,13 @@
+module <%= config[:app] %>::Controllers::<%= config[:resource_class] %>
+  class Destroy
+    include <%= config[:app] %>::Action
+    expose :<%= config[:name] %>
+
+    def call(params)
+      @<%= config[:name] %> = <%= config[:resource_class] %>Repository.find(params[:id])
+      <%= config[:resource_class] %>Repository.delete(@<%= config[:name] %>)
+
+      redirect_to '/<%= config[:name] %>'
+    end
+  end
+end

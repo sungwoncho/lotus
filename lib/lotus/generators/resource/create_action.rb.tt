@@ -1,0 +1,17 @@
+module <%= config[:app] %>::Controllers::<%= config[:resource_class] %>
+  class Create
+    include <%= config[:app] %>::Action
+
+    def call(params)
+      @<%= config[:name] %> = <%= config[:resource_class] %>.new(<%= config[:name] %>_params)
+      <%= config[:resource_class] %>Repository.persist(@<%= config[:name] %>)
+      redirect_to '/<%= config[:name] %>'
+    end
+
+    private
+
+    def <%= config[:name] %>_params
+      params[:<%= config[:name] %>]
+    end
+  end
+end

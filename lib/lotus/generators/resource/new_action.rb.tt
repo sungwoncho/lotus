@@ -1,0 +1,10 @@
+module <%= config[:app] %>::Controllers::<%= config[:resource_class] %>
+  class New
+    include <%= config[:app] %>::Action
+    expose :<%= config[:name] %>
+
+    def call(params)
+      @<%= config[:name] %> = <%= config[:resource_class] %>.new
+    end
+  end
+end

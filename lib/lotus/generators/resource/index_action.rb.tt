@@ -1,0 +1,10 @@
+module <%= config[:app] %>::Controllers::<%= config[:resource_class] %>
+  class Index
+    include <%= config[:app] %>::Action
+    expose :<%= config[:name] %>
+
+    def call(params)
+      @<%= config[:name] %> = <%= config[:resource_class] %>Repository.all
+    end
+  end
+end

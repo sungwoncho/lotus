@@ -15,12 +15,21 @@ module Lotus
 
       def start
         opts = {
+          app:            app,
+          name:           name,
           resource_class: resource_class
         }
 
         templates = {
           'entity.rb.tt' => _entity_path,
-          'repository.rb.tt' => _repository_path
+          'repository.rb.tt' => _repository_path,
+          'index_action.rb.tt' => _action_path('index'),
+          'show_action.rb.tt' => _action_path('show'),
+          'new_action.rb.tt' => _action_path('new'),
+          'create_action.rb.tt' => _action_path('create'),
+          'edit_action.rb.tt' => _action_path('edit'),
+          'update_action.rb.tt' => _action_path('update'),
+          'destroy_action.rb.tt' => _action_path('destroy')
         }
 
         generate_route
@@ -66,12 +75,20 @@ delete '/#{name}/:id', to: '#{name}#destroy'
         _repository_path_without_suffix.to_s + SUFFIX
       end
 
+      def _action_path(action)
+        _action_path_without_suffix(action).to_s + SUFFIX
+      end
+
       def _entity_path_without_suffix
         Pathname.new(["lib", app_name, "entities", name].join(File::SEPARATOR))
       end
 
       def _repository_path_without_suffix
         Pathname.new(["lib", app_name, "repositories", name].join(File::SEPARATOR))
+      end
+
+      def _action_path_without_suffix(action)
+        app_root.join("controllers", name, action)
       end
     end
   end

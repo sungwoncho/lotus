@@ -1,0 +1,10 @@
+module <%= config[:app] %>::Controllers::<%= config[:resource_class] %>
+  class Edit
+    include <%= config[:app] %>::Action
+    expose :<%= config[:name] %>
+
+    def call(params)
+      @<%= config[:name] %> = <%= config[:resource_class] %>Repository.find(params[:id])
+    end
+  end
+end

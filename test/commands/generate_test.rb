@@ -199,5 +199,122 @@ describe Lotus::Commands::Generate do
         content.must_match %(delete '/user/:id', to: 'user#destroy')
       end
     end
+
+    describe 'apps/web/controllers/user/index.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/index.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class Index)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    expose :user)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = UserRepository.all)
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/controllers/user/show.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/show.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class Show)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    expose :user)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = UserRepository.find(params[:id]))
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/controllers/user/new.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/new.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class New)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    expose :user)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = User.new)
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/controllers/user/create.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/create.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class Create)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = User.new(user_params))
+        content.must_match %(      UserRepository.persist(@user))
+        content.must_match %(      redirect_to '/user')
+        content.must_match %(    end)
+        content.must_match %(    private)
+        content.must_match %(    def user_params)
+        content.must_match %(      params[:user])
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/controllers/user/edit.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/edit.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class Edit)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    expose :user)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = UserRepository.find(params[:id]))
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/controllers/user/update.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/update.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class Update)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = UserRepository.find(params[:id]))
+        content.must_match %(      @user.update(user_params))
+        content.must_match %(      UserRepository.update(@user))
+        content.must_match %(      redirect_to '/user')
+        content.must_match %(    end)
+        content.must_match %(    private)
+        content.must_match %(    def user_params)
+        content.must_match %(      params[:user])
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
+
+    describe 'apps/web/controllers/user/destroy.rb' do
+      it 'generates it' do
+        content = @root.join('apps/web/controllers/user/destroy.rb').read
+        content.must_match %(module Web::Controllers::User)
+        content.must_match %(  class Destroy)
+        content.must_match %(    include Web::Action)
+        content.must_match %(    def call(params))
+        content.must_match %(      @user = UserRepository.find(params[:id]))
+        content.must_match %(      UserRepository.delete(@user))
+        content.must_match %(      redirect_to '/user')
+        content.must_match %(    end)
+        content.must_match %(  end)
+        content.must_match %(end)
+      end
+    end
   end
 end
