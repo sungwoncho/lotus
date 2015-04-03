@@ -177,6 +177,16 @@ describe Lotus::Commands::Generate do
       end
     end
 
+    describe 'lib/web/repositories/user.rb' do
+      it 'generates it' do
+        content = @root.join('lib/web/repositories/user.rb').read
+        content.must_match %(require "lotus/repository")
+        content.must_match %(class UserRepository)
+        content.must_match %(  include Lotus::Repository)
+        content.must_match %(end)
+      end
+    end
+
     describe 'apps/web/config/routes.rb' do
       it 'inserts route rules in it' do
         content = @root.join('apps/web/config/routes.rb').read

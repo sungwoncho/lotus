@@ -1,5 +1,5 @@
 require "lotus/repository"
 
-class <%= config[:resource_name] %>Repository
+class <%= config[:resource_class] %>Repository
   include Lotus::Repository
 end
