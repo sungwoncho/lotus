@@ -19,7 +19,8 @@ module Lotus
         }
 
         templates = {
-          'entity.rb.tt' => _entity_path
+          'entity.rb.tt' => _entity_path,
+          'repository.rb.tt' => _repository_path
         }
 
         templates.each do |src, dst|
@@ -37,8 +38,16 @@ module Lotus
         _entity_path_without_suffix.to_s + SUFFIX
       end
 
+      def _repository_path
+        _repository_path_without_suffix.to_s + SUFFIX
+      end
+
       def _entity_path_without_suffix
         Pathname.new(["lib", app_name, "entities", name].join(File::SEPARATOR))
+      end
+
+      def _repository_path_without_suffix
+        Pathname.new(["lib", app_name, "repositories", name].join(File::SEPARATOR))
       end
     end
   end
