@@ -29,7 +29,7 @@ module Lotus
         @app_name = app_name
         @app      = Utils::String.new(@app_name).classify
 
-        @name     = name
+        @name     = name.downcase
         @type     = type
 
         @source   = Pathname.new(::File.dirname(__FILE__) + "/../generators/#{ @type }/").realpath

@@ -15,7 +15,7 @@ module Lotus
 
       def start
         opts = {
-          resource_name: resource_name
+          resource_class: resource_class
         }
 
         templates = {
@@ -23,16 +23,40 @@ module Lotus
           'repository.rb.tt' => _repository_path
         }
 
+        generate_route
+
         templates.each do |src, dst|
           cli.template(source.join(src), target.join(dst), opts)
         end
       end
 
-      def resource_name
-        @resource_name ||= Utils::String.new(name).classify
+      def resource_class
+        @resource_class ||= Utils::String.new(name).classify
       end
 
       private
+
+      def generate_route
+        path = target.join(_routes_path)
+        path.dirname.mkpath
+
+        FileUtils.touch(path)
+
+        cli.insert_into_file _routes_path, before: /\A(.*)/ do
+          "get '/#{name}', to: '#{name}#index'
+get '/#{name}/:id', to: '#{name}#show'
+get '/#{name}/new', to: '#{name}#new'
+post '/#{name}', to: '#{name}#create'
+get '/#{name}/:id/edit', to: '#{name}#edit'
+patch '/#{name}/:id', to: '#{name}#update'
+delete '/#{name}/:id', to: '#{name}#destroy'
+"
+        end
+      end
+
+      def _routes_path
+        app_root.join("config", "routes#{ SUFFIX }")
+      end
 
       def _entity_path
         _entity_path_without_suffix.to_s + SUFFIX
